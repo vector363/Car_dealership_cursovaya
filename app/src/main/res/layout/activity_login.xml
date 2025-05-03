@@ -24,7 +24,7 @@
         android:padding="4dp">
 
         <TextView
-            android:id="@+id/tv_login"
+            android:id="@+id/switch_login"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:text="Вход"
@@ -35,7 +35,7 @@
             android:background="@drawable/bg_auth_tab_selected"/>
 
         <TextView
-            android:id="@+id/tv_register"
+            android:id="@+id/switch_register"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:text="Регистрация"

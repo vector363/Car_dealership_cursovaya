@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -31,8 +32,16 @@ android {
     }
 }
 
-dependencies {
 
+
+dependencies {
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+    implementation("com.google.firebase:firebase-auth-ktx") // Добавьте -ktx для Kotlin
+    implementation("com.google.firebase:firebase-firestore-ktx") // Добавьте -ktx
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+    // Остальные зависимости
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

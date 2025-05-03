@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "334106423449",
+    "project_id": "user-base-48ab9",
+    "storage_bucket": "user-base-48ab9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334106423449:android:635c130434469879080808",
+        "android_client_info": {
+          "package_name": "com.example.cardealership_cursovaya"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJjYtkFAW19ciUsdZP_TSzugvWOVjmxc0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
