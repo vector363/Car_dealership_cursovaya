@@ -1,4 +1,4 @@
-package com.example.cardealership_cursovaya;
+package com.example.cardealership_cursovaya.auth;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.cardealership_cursovaya.admin.AdminActivity;
+import com.example.cardealership_cursovaya.main.MainActivity;
+import com.example.cardealership_cursovaya.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;

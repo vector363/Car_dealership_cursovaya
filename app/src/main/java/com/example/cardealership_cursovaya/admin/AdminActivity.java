@@ -1,4 +1,4 @@
-package com.example.cardealership_cursovaya;
+package com.example.cardealership_cursovaya.admin;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,11 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.cardealership_cursovaya.main.CatalogFragment;
+import com.example.cardealership_cursovaya.main.FavoriteFragment;
+import com.example.cardealership_cursovaya.main.ProfileFragment;
+import com.example.cardealership_cursovaya.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AdminActivity extends AppCompatActivity {
     private BottomNavigationView bottomNav;
-    private boolean isAdmin = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,13 +23,13 @@ public class AdminActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setItemActiveIndicatorEnabled(false);
         setupNavigation();
     }
     private void setupNavigation() {
         Menu menu = bottomNav.getMenu();
         MenuItem adminMenuItem = menu.findItem(R.id.nav_admin);
-
-        adminMenuItem.setVisible(isAdmin);
+        adminMenuItem.setVisible(true);
 
         loadFragment(new CatalogFragment());
 
@@ -50,7 +53,6 @@ public class AdminActivity extends AppCompatActivity {
             return false;
         });
     }
-
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

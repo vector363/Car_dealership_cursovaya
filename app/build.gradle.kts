@@ -35,6 +35,9 @@ android {
 
 
 dependencies {
+    //FirebaseAdapter
+    implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
+    implementation("com.squareup.picasso:picasso:2.8")
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
     implementation("com.google.firebase:firebase-auth-ktx")

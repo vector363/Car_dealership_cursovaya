@@ -1,4 +1,4 @@
-package com.example.cardealership_cursovaya;
+package com.example.cardealership_cursovaya.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.cardealership_cursovaya.admin.AdminActivity;
+import com.example.cardealership_cursovaya.main.MainActivity;
+import com.example.cardealership_cursovaya.R;
+import com.example.cardealership_cursovaya.main.RegisterFragment;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -85,11 +89,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateTabAppearance(boolean isLoginSelected) {
+        // Установка фона
         switchLogin.setBackground(ContextCompat.getDrawable(this,
                 isLoginSelected ? R.drawable.bg_auth_tab_selected : R.drawable.bg_auth_tab_unselected));
 
         switchRegister.setBackground(ContextCompat.getDrawable(this,
                 isLoginSelected ? R.drawable.bg_auth_tab_unselected : R.drawable.bg_auth_tab_selected));
+
+        // Установка цвета текста
+        switchLogin.setTextColor(ContextCompat.getColor(this,
+                isLoginSelected ? R.color.UnswitchColor : R.color.colorTextWhite));
+
+        switchRegister.setTextColor(ContextCompat.getColor(this,
+                isLoginSelected ? R.color.colorTextWhite : R.color.UnswitchColor));
     }
 
     public void onAuthSuccess() { // Для фрагментов, чтобы они могли вызвать переход после успешной аутентификации

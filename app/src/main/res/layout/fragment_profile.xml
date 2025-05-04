@@ -1,15 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    android:orientation="vertical"
+    android:background="@color/BackgroundColor">
 
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="ProfileFrag"
-        android:textSize="26sp"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Профиль"
+        android:textColor="@color/colorTextGray"
+        android:textSize="50sp"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        />
 
-</FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/login_user"
+        android:text="user@mail.ru"
+        android:textColor="@color/colorTextGray"
+        android:textSize="30sp"
+        android:layout_marginTop="30dp"
+        />
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26sp"
+        android:backgroundTint="@color/colorTextGray"
+        android:text="Выйти из профиля"
+        android:layout_marginTop="500dp"
+        android:layout_gravity="center"
+        />
+
+</LinearLayout>

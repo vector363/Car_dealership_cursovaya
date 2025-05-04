@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="Введите ваш email"
         android:textSize="20sp"
-        android:textColor="#3D3B40"
+        android:textColor="@color/colorTextWhite"
         android:fontFamily="sans-serif-light"
         android:layout_gravity="start"
         android:layout_marginStart="75dp"
@@ -23,6 +23,7 @@
         android:inputType="textEmailAddress"
         android:layout_marginBottom="8dp"
         android:textSize="20sp"
+        android:textColor="@color/colorTextWhite"
         />
 
     <TextView
@@ -30,7 +31,7 @@
         android:layout_height="wrap_content"
         android:text="Придумайте пароль"
         android:textSize="20sp"
-        android:textColor="#3D3B40"
+        android:textColor="@color/colorTextWhite"
         android:fontFamily="sans-serif-light"
         android:layout_gravity="start"
         android:layout_marginStart="75dp"
@@ -43,6 +44,7 @@
         android:inputType="textPassword"
         android:layout_marginBottom="16dp"
         android:textSize="20sp"
+        android:textColor="@color/colorTextWhite"
         />
 
     <TextView
@@ -50,7 +52,7 @@
         android:layout_height="wrap_content"
         android:text="Повторите пароль"
         android:textSize="20sp"
-        android:textColor="#3D3B40"
+        android:textColor="@color/colorTextWhite"
         android:fontFamily="sans-serif-light"
         android:layout_gravity="start"
         android:layout_marginStart="75dp"
@@ -63,6 +65,7 @@
         android:inputType="textPassword"
         android:layout_marginBottom="16dp"
         android:textSize="20sp"
+        android:textColor="@color/colorTextWhite"
        />
 
     <Button
