@@ -37,9 +37,10 @@ android {
 dependencies {
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
-    implementation("com.google.firebase:firebase-auth-ktx") // Добавьте -ktx для Kotlin
-    implementation("com.google.firebase:firebase-firestore-ktx") // Добавьте -ktx
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.google.android.material:material:1.11.0")
 
     // Остальные зависимости
     implementation(libs.appcompat)
