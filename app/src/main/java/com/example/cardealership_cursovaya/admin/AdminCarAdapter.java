@@ -47,6 +47,7 @@ public class AdminCarAdapter extends RecyclerView.Adapter<AdminCarAdapter.CarVie
 
             holder.carBrand.setText(car.getBrand());
             holder.carModel.setText(car.getModel());
+            holder.carBodyType.setText(car.getBodyType());
             holder.carPrice.setText(String.format("%,d ₽", (int)car.getPrice()));
 
             if (car.getImageUrl() != null && !car.getImageUrl().isEmpty()) {
@@ -94,7 +95,7 @@ public class AdminCarAdapter extends RecyclerView.Adapter<AdminCarAdapter.CarVie
 
     static class CarViewHolder extends RecyclerView.ViewHolder {
         ImageView carImage;
-        TextView carBrand, carModel, carPrice;
+        TextView carBrand, carModel, carPrice, carBodyType;
         Button btnEdit, btnDelete;
 
         public CarViewHolder(@NonNull View itemView) {
@@ -103,6 +104,7 @@ public class AdminCarAdapter extends RecyclerView.Adapter<AdminCarAdapter.CarVie
             carBrand = itemView.findViewById(R.id.car_brand);
             carModel = itemView.findViewById(R.id.car_model);
             carPrice = itemView.findViewById(R.id.car_price);
+            carBodyType = itemView.findViewById(R.id.car_bodyType);
             btnEdit = itemView.findViewById(R.id.btn_edit);
             btnDelete = itemView.findViewById(R.id.btn_delete);
         }

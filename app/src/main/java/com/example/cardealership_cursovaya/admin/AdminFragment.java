@@ -1,5 +1,6 @@
 package com.example.cardealership_cursovaya.admin;
 
+
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -12,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -19,11 +22,14 @@ import android.widget.Toast;
 import com.example.cardealership_cursovaya.R;
 import com.example.cardealership_cursovaya.main.Car;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdminFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -56,6 +62,7 @@ public class AdminFragment extends Fragment {
 
         return view;
     }
+
 
     private void loadCars() {
         progressBar.setVisibility(View.VISIBLE);
@@ -105,6 +112,29 @@ public class AdminFragment extends Fragment {
         EditText etPrice = dialogView.findViewById(R.id.et_price);
         EditText etImageUrl = dialogView.findViewById(R.id.et_image_url);
 
+        TextInputLayout bodyTypeLayout = dialogView.findViewById(R.id.body_type_layout);
+        AutoCompleteTextView actBodyType = dialogView.findViewById(R.id.act_body_type);
+
+        // Настройка адаптера для выпадающего списка
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                R.layout.dropdown_menu_item,
+                getResources().getStringArray(R.array.body_types));
+        actBodyType.setAdapter(adapter);
+
+        if (car != null && car.getBodyType() != null) {
+            // Приводим первую букву к верхнему регистру для отображения
+            String currentBodyType = car.getBodyType().substring(0, 1).toUpperCase()
+                    + car.getBodyType().substring(1);
+            actBodyType.setText(currentBodyType, false); // false - не фильтровать
+        }
+
+        // Включаем выпадающий список при клике
+        actBodyType.setOnClickListener(v -> {
+            actBodyType.showDropDown();
+
+        });
+
         // Заполнение данных если редактируем
         if (car != null) {
             etBrand.setText(car.getBrand());
@@ -121,8 +151,9 @@ public class AdminFragment extends Fragment {
                     String model = etModel.getText().toString().trim();
                     String priceStr = etPrice.getText().toString().trim();
                     String imageUrl = etImageUrl.getText().toString().trim();
+                    String bodyType = actBodyType.getText().toString().trim().toLowerCase();
 
-                    if (brand.isEmpty() || model.isEmpty() || priceStr.isEmpty()) {
+                    if (brand.isEmpty() || model.isEmpty() || priceStr.isEmpty() || bodyType.isEmpty()) {
                         Toast.makeText(getContext(), "Заполните все обязательные поля", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -136,7 +167,7 @@ public class AdminFragment extends Fragment {
                     }
 
                     // Создаем/обновляем авто
-                    Car newCar = new Car(brand, model, price, imageUrl);
+                    Car newCar = new Car(brand, model, price, imageUrl, bodyType);
                     if (car == null) {
                         addCar(newCar);
                     } else {
@@ -145,11 +176,17 @@ public class AdminFragment extends Fragment {
                 })
                 .setNegativeButton("Отмена", null);
 
-        builder.create().show();
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void addCar(Car car) {
         progressBar.setVisibility(View.VISIBLE);
+
+        // Добавляем проверку bodyType
+        if (car.getBodyType() == null || car.getBodyType().isEmpty()) {
+            car.setBodyType("седан"); // Значение по умолчанию
+        }
 
         db.collection("cars")
                 .add(car)
@@ -167,9 +204,16 @@ public class AdminFragment extends Fragment {
     private void updateCar(String carId, Car car) {
         progressBar.setVisibility(View.VISIBLE);
 
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("brand", car.getBrand());
+        updates.put("model", car.getModel());
+        updates.put("price", car.getPrice());
+        updates.put("imageUrl", car.getImageUrl());
+        updates.put("bodyType", car.getBodyType().toLowerCase());
+
         db.collection("cars")
                 .document(carId)
-                .set(car)
+                .update(updates)
                 .addOnSuccessListener(aVoid -> {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "Изменения сохранены", Toast.LENGTH_SHORT).show();

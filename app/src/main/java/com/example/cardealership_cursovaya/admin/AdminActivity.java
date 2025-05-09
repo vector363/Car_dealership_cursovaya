@@ -3,13 +3,13 @@ package com.example.cardealership_cursovaya.admin;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cardealership_cursovaya.main.CatalogFragment;
-import com.example.cardealership_cursovaya.main.FavoriteFragment;
 import com.example.cardealership_cursovaya.main.ProfileFragment;
 import com.example.cardealership_cursovaya.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -38,8 +38,6 @@ public class AdminActivity extends AppCompatActivity {
 
             if (item.getItemId() == R.id.nav_catalog) {
                 selectedFragment = new CatalogFragment();
-            } else if (item.getItemId() == R.id.nav_favorite) {
-                selectedFragment = new FavoriteFragment();
             } else if (item.getItemId() == R.id.nav_profile) {
                 selectedFragment = new ProfileFragment();
             } else if (item.getItemId() == R.id.nav_admin) {
@@ -60,4 +58,7 @@ public class AdminActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+
+
 }

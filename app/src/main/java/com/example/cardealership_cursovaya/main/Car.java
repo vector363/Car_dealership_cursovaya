@@ -1,25 +1,34 @@
 package com.example.cardealership_cursovaya.main;
 
+import com.google.firebase.firestore.PropertyName;
+
 public class Car {
     private String id;
     private String brand;
     private String model;
     private double price;
     private String imageUrl;
+    @PropertyName("bodyType")
+    private String bodyType;
     private boolean isFavorite = false;
 
-    // Обязательный пустой конструктор для Firestore
-    public Car() {}
+    public Car() {} // Обязательный пустой конструктор для Firestore
 
-    public Car(String brand, String model, double price, String imageUrl) {
+    public Car(String brand, String model, double price, String imageUrl, String bodyType) {
         this.brand = brand;
         this.model = model;
         this.price = price;
         this.imageUrl = imageUrl;
+        this.bodyType = bodyType;
     }
 
 
     // Геттеры и сеттеры
+    @PropertyName("bodyType")
+    public String getBodyType() { return bodyType; }
+
+    @PropertyName("bodyType")
+    public void setBodyType(String bodyType) { this.bodyType = bodyType; }
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 

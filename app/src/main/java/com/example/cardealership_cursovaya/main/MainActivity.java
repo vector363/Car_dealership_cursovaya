@@ -11,9 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cardealership_cursovaya.R;
-import com.example.cardealership_cursovaya.admin.AdminFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNav;
@@ -24,11 +22,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNav = findViewById(R.id.bottom_nav);
+
         bottomNav.setItemActiveIndicatorEnabled(false);
         setupNavigation();
     }
     private void setupNavigation() {
         loadFragment(new CatalogFragment());
+
+        Menu menu = bottomNav.getMenu();
+        MenuItem adminMenuItem = menu.findItem(R.id.nav_favorite);
+        adminMenuItem.setVisible(true);
 
         bottomNav.setOnNavigationItemSelectedListener(item -> {
             Fragment selectedFragment = null;
@@ -55,12 +58,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
-//
-//    // Метод для скрытия/показа BottomNavigation
-//    public void setBottomNavVisibility(boolean visible) {
-//        bottomNav.setVisibility(visible ? View.VISIBLE : View.GONE);
-//    }
 
 
 }
