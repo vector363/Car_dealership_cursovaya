@@ -5,10 +5,10 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/filter_recycler_view"
@@ -24,9 +24,9 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             tools:listitem="@layout/item_car" />
-
     </LinearLayout>
 
+    <!--Индикатор загрузки-->
     <ProgressBar
         android:id="@+id/loading_indicator"
         android:layout_width="wrap_content"

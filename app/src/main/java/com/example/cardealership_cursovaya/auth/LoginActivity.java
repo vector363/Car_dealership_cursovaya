@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat;
 import com.example.cardealership_cursovaya.admin.AdminActivity;
 import com.example.cardealership_cursovaya.main.MainActivity;
 import com.example.cardealership_cursovaya.R;
-import com.example.cardealership_cursovaya.main.RegisterFragment;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

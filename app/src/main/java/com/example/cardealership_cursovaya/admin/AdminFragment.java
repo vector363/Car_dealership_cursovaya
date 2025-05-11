@@ -112,6 +112,9 @@ public class AdminFragment extends Fragment {
         EditText etPrice = dialogView.findViewById(R.id.et_price);
         EditText etImageUrl = dialogView.findViewById(R.id.et_image_url);
 
+        EditText etYear = dialogView.findViewById(R.id.et_year);
+        EditText etMiliage = dialogView.findViewById(R.id.et_mileage);
+
         TextInputLayout bodyTypeLayout = dialogView.findViewById(R.id.body_type_layout);
         AutoCompleteTextView actBodyType = dialogView.findViewById(R.id.act_body_type);
 
@@ -139,6 +142,8 @@ public class AdminFragment extends Fragment {
         if (car != null) {
             etBrand.setText(car.getBrand());
             etModel.setText(car.getModel());
+            etMiliage.setText(String.valueOf(car.getMileage()));
+            etYear.setText(car.getYear());
             etPrice.setText(String.valueOf(car.getPrice()));
             etImageUrl.setText(car.getImageUrl());
         }
@@ -153,21 +158,27 @@ public class AdminFragment extends Fragment {
                     String imageUrl = etImageUrl.getText().toString().trim();
                     String bodyType = actBodyType.getText().toString().trim().toLowerCase();
 
-                    if (brand.isEmpty() || model.isEmpty() || priceStr.isEmpty() || bodyType.isEmpty()) {
+                    String year = etYear.getText().toString().trim();
+                    String mileageStr = etMiliage.getText().toString().trim();
+
+
+                    if (brand.isEmpty() || model.isEmpty() || priceStr.isEmpty() || bodyType.isEmpty() || year.isEmpty() || mileageStr.isEmpty()) {
                         Toast.makeText(getContext(), "Заполните все обязательные поля", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     double price;
+                    double mileage;
                     try {
                         price = Double.parseDouble(priceStr);
+                        mileage = Double.parseDouble(mileageStr);
                     } catch (NumberFormatException e) {
-                        Toast.makeText(getContext(), "Некорректная цена", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Некорректная цена или пробег", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     // Создаем/обновляем авто
-                    Car newCar = new Car(brand, model, price, imageUrl, bodyType);
+                    Car newCar = new Car(brand, model, price, imageUrl, bodyType, year, mileage);
                     if (car == null) {
                         addCar(newCar);
                     } else {
@@ -210,6 +221,9 @@ public class AdminFragment extends Fragment {
         updates.put("price", car.getPrice());
         updates.put("imageUrl", car.getImageUrl());
         updates.put("bodyType", car.getBodyType().toLowerCase());
+        updates.put("year", car.getYear());
+        updates.put("mileage", car.getMileage());
+
 
         db.collection("cars")
                 .document(carId)

@@ -1,10 +1,12 @@
 package com.example.cardealership_cursovaya.main;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +27,15 @@ import java.util.Map;
 public class CarAdapter extends FirestoreRecyclerAdapter<Car, CarAdapter.CarViewHolder> {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(Car car);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public CarAdapter(@NonNull FirestoreRecyclerOptions<Car> options) {
         super(options);
@@ -44,7 +57,33 @@ public class CarAdapter extends FirestoreRecyclerAdapter<Car, CarAdapter.CarView
 
         holder.carBrand.setText(car.getBrand());
         holder.carModel.setText(car.getModel());
-        holder.carPrice.setText(String.format("%,d ₽", (int)car.getPrice()));
+
+        holder.carYear.setText(car.getYear() + "г.,");
+
+        holder.carMileage.setText(String.format("%,d км", (int)car.getMileage()));
+        holder.carPrice.setText(String.format("%,d ₽", (int)car.getPrice()).replace(",", " "));
+
+        if (car.getImageUrl() != null && !car.getImageUrl().isEmpty()) {
+            Picasso.get()
+                    .load(car.getImageUrl())
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_background)
+                    .into(holder.carImage, new Callback() {
+                        @Override
+                        public void onSuccess() {}
+
+                        @Override
+                        public void onError(Exception e) {
+                            Log.e("Picasso", "Error loading image: " + e.getMessage());
+                        }
+                    });
+        }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(car);
+            }
+        });
 
         checkIfFavorite(carId, holder.favoriteButton);
 
@@ -65,7 +104,7 @@ public class CarAdapter extends FirestoreRecyclerAdapter<Car, CarAdapter.CarView
                     if (task.isSuccessful()) {
                         boolean isFavorite = !task.getResult().isEmpty();
                         favoriteButton.setImageResource(isFavorite ?
-                                R.drawable.ic_favorite : R.drawable.ic_favorite_border);
+                                R.drawable.ic_favorite_sel : R.drawable.ic_favorite_unsel);
                     }
                 });
     }
@@ -98,7 +137,7 @@ public class CarAdapter extends FirestoreRecyclerAdapter<Car, CarAdapter.CarView
         db.collection("favorites")
                 .add(favorite)
                 .addOnSuccessListener(documentReference -> {
-                    favoriteButton.setImageResource(R.drawable.ic_favorite);
+                    favoriteButton.setImageResource(R.drawable.ic_favorite_sel);
                 });
     }
 
@@ -107,19 +146,23 @@ public class CarAdapter extends FirestoreRecyclerAdapter<Car, CarAdapter.CarView
                 .document(favoriteId)
                 .delete()
                 .addOnSuccessListener(aVoid -> {
-                    favoriteButton.setImageResource(R.drawable.ic_favorite_border);
+                    favoriteButton.setImageResource(R.drawable.ic_favorite_unsel);
                 });
     }
 
     static class CarViewHolder extends RecyclerView.ViewHolder {
-        TextView carBrand, carModel, carPrice;
+        ImageView carImage;
+        TextView carBrand, carModel, carPrice, carMileage, carYear;
         ImageButton favoriteButton;
 
         public CarViewHolder(@NonNull View itemView) {
             super(itemView);
+            carImage = itemView.findViewById(R.id.car_image);
             carBrand = itemView.findViewById(R.id.car_brand);
             carModel = itemView.findViewById(R.id.car_model);
             carPrice = itemView.findViewById(R.id.car_price);
+            carMileage = itemView.findViewById(R.id.car_mileage);
+            carYear = itemView.findViewById(R.id.car_year);
             favoriteButton = itemView.findViewById(R.id.favorite_button);
         }
     }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.cardealership_cursovaya.CarDetailFragment;
 import com.example.cardealership_cursovaya.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -94,6 +95,19 @@ public class CatalogFragment extends Fragment {
             }
 
             adapter = new CarAdapter(options);
+            adapter.setOnItemClickListener(car -> {
+                CarDetailFragment detailFragment = CarDetailFragment.newInstance(car);
+                getParentFragmentManager().beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.slide_in_right,
+                                R.anim.slide_out_left,
+                                R.anim.slide_in_left,
+                                R.anim.slide_out_right)
+                        .replace(R.id.fragment_container, detailFragment)
+                        .addToBackStack("car_detail")
+                        .commit();
+            });
+
             carsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             carsRecyclerView.setAdapter(adapter);
             adapter.startListening();

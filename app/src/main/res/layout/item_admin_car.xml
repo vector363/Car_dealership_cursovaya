@@ -36,6 +36,20 @@
             android:layout_marginTop="4dp"/>
 
         <TextView
+            android:id="@+id/car_mileage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/car_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
             android:id="@+id/car_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

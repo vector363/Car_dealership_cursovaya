@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/filter_button"
+<Button android:id="@+id/filter_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    app:backgroundTint="@null"
     android:background="@drawable/filter_button_bg"
-    android:padding="8dp"
-    android:textColor="@color/colorTextDark"
+    android:textColor="@color/colorTextWhite"
     android:textSize="14sp"
-    android:layout_marginEnd="8dp" />
+    android:padding="8dp"
+    android:layout_marginEnd="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" />

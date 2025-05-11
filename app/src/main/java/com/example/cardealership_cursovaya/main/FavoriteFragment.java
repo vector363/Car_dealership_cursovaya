@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.example.cardealership_cursovaya.CarDetailFragment;
 import com.example.cardealership_cursovaya.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldPath;
@@ -104,11 +105,20 @@ public class FavoriteFragment extends Fragment {
 
     private void setupAdapter(List<Car> cars) {
         adapter = new FavoriteCarAdapter(cars, car -> {
-            // Обработка клика по автомобилю
-            // Можно открыть детальную информацию
+            CarDetailFragment detailFragment = CarDetailFragment.newInstance(car);
+            getParentFragmentManager().beginTransaction()
+                    .setCustomAnimations(
+                            R.anim.slide_in_right,  // вход нового фрагмента
+                            R.anim.slide_out_left,  // выход текущего
+                            R.anim.slide_in_left,   // вход при возврате
+                            R.anim.slide_out_right) // выход при возврате
+                    .replace(R.id.fragment_container, detailFragment)
+                    .addToBackStack("favorite_car_detail") // Уникальное имя для back stack
+                    .commit();
         });
         recyclerView.setAdapter(adapter);
     }
+
 
     @Override
     public void onStart() {
