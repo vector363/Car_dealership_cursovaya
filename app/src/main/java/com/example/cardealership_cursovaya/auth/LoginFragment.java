@@ -29,6 +29,7 @@ public class LoginFragment extends Fragment {
     private Button btnLogin;
     private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
+    private SessionManager sessionManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,27 +41,22 @@ public class LoginFragment extends Fragment {
 
     private void initViews(View view) {
         mAuth = FirebaseAuth.getInstance();
+        sessionManager = new SessionManager(requireContext());
         inputEmail = view.findViewById(R.id.register_email);
         inputPassword = view.findViewById(R.id.register_password);
         btnLogin = view.findViewById(R.id.register_button);
 
-        // Настройка ProgressDialog
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Пожалуйста, подождите...");
         progressDialog.setCancelable(false);
+
+        // Автозаполнение email если есть сохраненная сессия
+        if (sessionManager.isLoggedIn()) {
+            inputEmail.setText(sessionManager.getSavedEmail());
+        }
     }
 
-    private void setupLoginButton() {
-        btnLogin.setOnClickListener(v -> {
-            String email = inputEmail.getText().toString().trim();
-            String password = inputPassword.getText().toString().trim();
-
-            if (validateInputs(email, password)) {
-                signInUser(email, password);
-            }
-        });
-    }
-
+    // Добавляем метод валидации
     private boolean validateInputs(String email, String password) {
         boolean isValid = true;
 
@@ -83,6 +79,17 @@ public class LoginFragment extends Fragment {
         return isValid;
     }
 
+    private void setupLoginButton() {
+        btnLogin.setOnClickListener(v -> {
+            String email = inputEmail.getText().toString().trim();
+            String password = inputPassword.getText().toString().trim();
+
+            if (validateInputs(email, password)) {
+                signInUser(email, password);
+            }
+        });
+    }
+
     private void signInUser(String email, String password) {
         progressDialog.show();
 
@@ -91,6 +98,7 @@ public class LoginFragment extends Fragment {
                     progressDialog.dismiss();
 
                     if (task.isSuccessful()) {
+                        sessionManager.saveLoginSession(email);
                         checkUserRole();
                     } else {
                         showAuthError(task.getException());

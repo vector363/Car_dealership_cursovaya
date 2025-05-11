@@ -17,20 +17,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
     private TextView switchLogin, switchRegister;
+    private SessionManager sessionManager;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
-            if (FirebaseApp.getApps(this).isEmpty()) {
-                FirebaseApp.initializeApp(this); // Явная инициализация (на случай проблем)
-            }
-            mAuth = FirebaseAuth.getInstance();
-        } catch (IllegalStateException e) {
-            Log.e("Firebase", "Ошибка инициализации Firebase", e);
-            finish();
+        sessionManager = new SessionManager(this);
+        mAuth = FirebaseAuth.getInstance();
+
+        // Проверка существующей сессии
+        if (sessionManager.isLoggedIn() && mAuth.getCurrentUser() != null) {
+            redirectBasedOnRole();
             return;
         }
 
@@ -39,10 +38,27 @@ public class LoginActivity extends AppCompatActivity {
         setupTabListeners();
 
         if (savedInstanceState == null) {
-            showLoginFragment(); //Показ первого фрагмента
+            showLoginFragment();
         }
     }
 
+    private void redirectBasedOnRole() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            FirebaseFirestore.getInstance().collection("users")
+                    .document(user.getUid()).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Boolean isAdmin = task.getResult().getBoolean("isAdmin");
+                            Intent intent = new Intent(this,
+                                    isAdmin != null && isAdmin ? AdminActivity.class : MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+        }
+    }
     private void initViews() {
         switchLogin = findViewById(R.id.switch_login);
         switchRegister = findViewById(R.id.switch_register);
@@ -101,9 +117,5 @@ public class LoginActivity extends AppCompatActivity {
 
         switchRegister.setTextColor(ContextCompat.getColor(this,
                 isLoginSelected ? R.color.colorTextWhite : R.color.UnswitchColor));
-    }
-
-    public void onAuthSuccess() { // Для фрагментов, чтобы они могли вызвать переход после успешной аутентификации
-        checkUserRoleAndRedirect();
     }
 }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.cardealership_cursovaya.R;
 import com.example.cardealership_cursovaya.auth.LoginActivity;
+import com.example.cardealership_cursovaya.auth.SessionManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -21,27 +22,34 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth mAuth;
     private TextView ShowLogin;
     private Button btnLogout;
+    private SessionManager sessionManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         mAuth = FirebaseAuth.getInstance();
+        sessionManager = new SessionManager(requireContext());
         ShowLogin = view.findViewById(R.id.login_user);
         btnLogout = view.findViewById(R.id.btn_logout);
+
         showUserData();
         setupLogoutButton();
 
         return view;
     }
+
     private void showUserData() {
         FirebaseUser user = mAuth.getCurrentUser();
-        ShowLogin.setText(user.getEmail());
+        if (user != null) {
+            ShowLogin.setText(user.getEmail());
+        }
     }
 
     private void setupLogoutButton() {
         btnLogout.setOnClickListener(v -> {
             mAuth.signOut();
+            sessionManager.logout();
             redirectToLogin();
         });
     }
@@ -50,13 +58,9 @@ public class ProfileFragment extends Fragment {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-        if (getActivity() != null) {
-            getActivity().finish();
-        }
+        requireActivity().finish();
     }
-
 }
-
 
 
 
