@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cardealership_cursovaya.R;
@@ -18,6 +19,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -29,13 +31,9 @@ public class CarAdapter extends FirestoreRecyclerAdapter<Car, CarAdapter.CarView
     private FirebaseFirestore db;
     private OnItemClickListener listener;
 
-    public interface OnItemClickListener {
-        void onItemClick(Car car);
-    }
+    public interface OnItemClickListener { void onItemClick(Car car);}
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
+    public void setOnItemClickListener(OnItemClickListener listener) {this.listener = listener;}
 
     public CarAdapter(@NonNull FirestoreRecyclerOptions<Car> options) {
         super(options);
@@ -57,9 +55,7 @@ public class CarAdapter extends FirestoreRecyclerAdapter<Car, CarAdapter.CarView
 
         holder.carBrand.setText(car.getBrand());
         holder.carModel.setText(car.getModel());
-
         holder.carYear.setText(car.getYear() + "г.,");
-
         holder.carMileage.setText(String.format("%,d км", (int)car.getMileage()));
         holder.carPrice.setText(String.format("%,d ₽", (int)car.getPrice()).replace(",", " "));
 
@@ -88,8 +84,64 @@ public class CarAdapter extends FirestoreRecyclerAdapter<Car, CarAdapter.CarView
         checkIfFavorite(carId, holder.favoriteButton);
 
         holder.favoriteButton.setOnClickListener(v -> {
-            toggleFavorite(carId, holder.favoriteButton);
+            v.animate()
+                    .scaleX(0.7f)
+                    .scaleY(0.7f)
+                    .setDuration(80)
+                    .withEndAction(() -> {
+                        toggleFavorite(carId, holder.favoriteButton);
+                        v.animate()
+                                .scaleX(1f)
+                                .scaleY(1f)
+                                .setDuration(80)
+                                .start();
+                    })
+                    .start();
         });
+    }
+
+    private void toggleFavorite(String carId, ImageButton favoriteButton) {
+        String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : "";
+        if (userId.isEmpty()) return;
+
+        // Мгновенно меняем иконку (инвертируем текущее состояние)
+        boolean isCurrentlyFavorite = favoriteButton.getDrawable().getConstantState()
+                .equals(ContextCompat.getDrawable(favoriteButton.getContext(), R.drawable.ic_favorite_sel).getConstantState());
+
+        favoriteButton.setImageResource(isCurrentlyFavorite
+                ? R.drawable.ic_favorite_unsel
+                : R.drawable.ic_favorite_sel);
+
+        // Анимация
+        favoriteButton.animate()
+                .scaleX(0.8f).scaleY(0.8f)
+                .setDuration(80)
+                .withEndAction(() -> favoriteButton.animate()
+                        .scaleX(1f).scaleY(1f)
+                        .setDuration(80)
+                        .start())
+                .start();
+
+        // Затем синхронизируем с сервером
+        db.collection("favorites")
+                .whereEqualTo("userId", userId)
+                .whereEqualTo("carId", carId)
+                .get(Source.CACHE)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (isCurrentlyFavorite) {
+                            // Если иконка была "избранное", теперь удаляем
+                            if (!task.getResult().isEmpty()) {
+                                removeFromFavorites(task.getResult().getDocuments().get(0).getId());
+                            }
+                        } else {
+                            // Если иконка была "не избранное", теперь добавляем
+                            if (task.getResult().isEmpty()) {
+                                addToFavorites(userId, carId);
+                            }
+                        }
+                    }
+                });
     }
 
     private void checkIfFavorite(String carId, ImageButton favoriteButton) {
@@ -99,57 +151,29 @@ public class CarAdapter extends FirestoreRecyclerAdapter<Car, CarAdapter.CarView
         db.collection("favorites")
                 .whereEqualTo("userId", userId)
                 .whereEqualTo("carId", carId)
-                .get()
+                .get(Source.CACHE)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         boolean isFavorite = !task.getResult().isEmpty();
-                        favoriteButton.setImageResource(isFavorite ?
-                                R.drawable.ic_favorite_sel : R.drawable.ic_favorite_unsel);
+                        favoriteButton.setImageResource(isFavorite
+                                ? R.drawable.ic_favorite_sel
+                                : R.drawable.ic_favorite_unsel);
                     }
                 });
     }
 
-    private void toggleFavorite(String carId, ImageButton favoriteButton) {
-        String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : "";
-        if (userId.isEmpty()) return;
-
-        db.collection("favorites")
-                .whereEqualTo("userId", userId)
-                .whereEqualTo("carId", carId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        if (task.getResult().isEmpty()) {
-                            addToFavorites(userId, carId, favoriteButton);
-                        } else {
-                            removeFromFavorites(task.getResult().getDocuments().get(0).getId(), favoriteButton);
-                        }
-                    }
-                });
-    }
-
-    private void addToFavorites(String userId, String carId, ImageButton favoriteButton) {
+    private void addToFavorites(String userId, String carId) {
         Map<String, Object> favorite = new HashMap<>();
         favorite.put("userId", userId);
         favorite.put("carId", carId);
         favorite.put("timestamp", FieldValue.serverTimestamp());
 
-        db.collection("favorites")
-                .add(favorite)
-                .addOnSuccessListener(documentReference -> {
-                    favoriteButton.setImageResource(R.drawable.ic_favorite_sel);
-                });
+        db.collection("favorites").add(favorite);
     }
 
-    private void removeFromFavorites(String favoriteId, ImageButton favoriteButton) {
-        db.collection("favorites")
-                .document(favoriteId)
-                .delete()
-                .addOnSuccessListener(aVoid -> {
-                    favoriteButton.setImageResource(R.drawable.ic_favorite_unsel);
-                });
+    private void removeFromFavorites(String favoriteId) {
+        db.collection("favorites").document(favoriteId).delete();
     }
-
     static class CarViewHolder extends RecyclerView.ViewHolder {
         ImageView carImage;
         TextView carBrand, carModel, carPrice, carMileage, carYear;

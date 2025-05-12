@@ -63,7 +63,6 @@ public class AdminFragment extends Fragment {
         return view;
     }
 
-
     private void loadCars() {
         progressBar.setVisibility(View.VISIBLE);
 

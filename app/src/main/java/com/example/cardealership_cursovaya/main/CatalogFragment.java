@@ -28,6 +28,7 @@ public class CatalogFragment extends Fragment {
     private RecyclerView carsRecyclerView, filterRecyclerView;
     private String selectedBodyType = null;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

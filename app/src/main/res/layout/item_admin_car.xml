@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/UnswitchColor">
 
         <ImageView
             android:id="@+id/car_image"
@@ -26,28 +27,32 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:textColor="@color/colorTextWhite"/>
 
         <TextView
             android:id="@+id/car_model"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="4dp"
+            android:textColor="@color/colorTextWhite"/>
 
         <TextView
             android:id="@+id/car_mileage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="4dp"
+            android:textColor="@color/colorTextWhite"/>
 
         <TextView
             android:id="@+id/car_year"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="4dp"
+            android:textColor="@color/colorTextWhite"/>
 
         <TextView
             android:id="@+id/car_price"
@@ -55,7 +60,8 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="@color/design_default_color_primary"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            />
         <TextView
             android:id="@+id/car_bodyType"
             android:layout_width="match_parent"

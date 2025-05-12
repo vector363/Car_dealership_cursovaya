@@ -1,6 +1,9 @@
 package com.example.cardealership_cursovaya.main;
 
-import android.util.Log;
+import static java.util.Objects.requireNonNull;
+
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,28 +12,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cardealership_cursovaya.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
+
 
 public class FavoriteCarAdapter extends RecyclerView.Adapter<FavoriteCarAdapter.CarViewHolder> {
     private List<Car> cars;
-    private OnCarClickListener listener;
+    private final OnCarClickListener listener;
+    private final Drawable favoriteSel, favoriteUnsel;
 
     public interface OnCarClickListener {
         void onCarClick(Car car);
     }
 
-    public FavoriteCarAdapter(List<Car> cars, OnCarClickListener listener) {
-        this.cars = cars;
+    public FavoriteCarAdapter(List<Car> cars, OnCarClickListener listener, Context context) {
+        this.cars = new ArrayList<>(cars); // Защитная копия
         this.listener = listener;
+        this.favoriteSel = ContextCompat.getDrawable(requireNonNull(context), R.drawable.ic_favorite_sel);
+        this.favoriteUnsel = ContextCompat.getDrawable(context, R.drawable.ic_favorite_unsel);
     }
 
     @NonNull
@@ -43,68 +52,61 @@ public class FavoriteCarAdapter extends RecyclerView.Adapter<FavoriteCarAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull CarViewHolder holder, int position) {
-        // Устанавливаем заполненную иконку для избранного
-        holder.favoriteButton.setImageResource(R.drawable.ic_favorite_sel);
-
         Car car = cars.get(position);
 
-        // Обработчик клика по всему элементу
-        holder.itemView.setOnClickListener(v -> {
+        holder.favoriteButton.setImageDrawable(favoriteSel);
 
-            if (listener != null) {
-                listener.onCarClick(car);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onCarClick(car);
+        });
+
+        holder.favoriteButton.setOnClickListener(v -> {
+            holder.favoriteButton.setImageDrawable(favoriteUnsel);
+            v.animate()
+                    .scaleX(0.8f).scaleY(0.8f)
+                    .setDuration(100)
+                    .withEndAction(() -> v.animate()
+                            .scaleX(1f).scaleY(1f)
+                            .setDuration(100)
+                            .start())
+                    .start();
+
+            removeFromFavorites(car.getId(), holder.getAdapterPosition());
         });
 
         holder.carBrand.setText(car.getBrand());
         holder.carModel.setText(car.getModel());
         holder.carPrice.setText(String.format("%,d ₽", (int)car.getPrice()));
-
-        holder.carYear.setText(car.getYear() + "г.,");
+        holder.carYear.setText(String.format("%sг.,", car.getYear()));
         holder.carMileage.setText(String.format("%,d км", (int)car.getMileage()));
 
-
-        // Обработчик клика по кнопке избранного
-        holder.favoriteButton.setOnClickListener(v -> {
-            removeFromFavorites(car.getId(), position);
-        });
-        //Загрузка картинки авто
         if (car.getImageUrl() != null && !car.getImageUrl().isEmpty()) {
             Picasso.get()
                     .load(car.getImageUrl())
                     .placeholder(R.drawable.ic_launcher_background)
                     .error(R.drawable.ic_launcher_background)
-                    .into(holder.carImage, new Callback() {
-                        @Override
-                        public void onSuccess() {}
-
-                        @Override
-                        public void onError(Exception e) {
-                            Log.e("Picasso", "Error loading image: " + e.getMessage());
-                        }
-                    });
+                    .into(holder.carImage);
         }
     }
 
     private void removeFromFavorites(String carId, int position) {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null || position == RecyclerView.NO_POSITION) return;
 
-        String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : null;
-        if (userId == null) return;
-
-        db.collection("favorites")
-                .whereEqualTo("userId", userId)
+        FirebaseFirestore.getInstance()
+                .collection("favorites")
+                .whereEqualTo("userId", user.getUid())
                 .whereEqualTo("carId", carId)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                        String favoriteId = task.getResult().getDocuments().get(0).getId();
-                        db.collection("favorites").document(favoriteId).delete()
+                        DocumentSnapshot doc = task.getResult().getDocuments().get(0);
+                        doc.getReference().delete()
                                 .addOnSuccessListener(aVoid -> {
-                                    // Удаляем из списка
-                                    cars.remove(position);
-                                    notifyItemRemoved(position);
+                                    if (position < cars.size()) {
+                                        cars.remove(position);
+                                        notifyItemRemoved(position);
+                                    }
                                 });
                     }
                 });
@@ -116,9 +118,9 @@ public class FavoriteCarAdapter extends RecyclerView.Adapter<FavoriteCarAdapter.
     }
 
     static class CarViewHolder extends RecyclerView.ViewHolder {
-        ImageView carImage;
-        TextView carBrand, carModel, carPrice, carYear, carMileage;
-        ImageButton favoriteButton;
+        final ImageView carImage;
+        final TextView carBrand, carModel, carPrice, carYear, carMileage;
+        final ImageButton favoriteButton;
 
         public CarViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -126,10 +128,8 @@ public class FavoriteCarAdapter extends RecyclerView.Adapter<FavoriteCarAdapter.
             carBrand = itemView.findViewById(R.id.car_brand);
             carModel = itemView.findViewById(R.id.car_model);
             carPrice = itemView.findViewById(R.id.car_price);
-
             carYear = itemView.findViewById(R.id.car_year);
             carMileage = itemView.findViewById(R.id.car_mileage);
-
             favoriteButton = itemView.findViewById(R.id.favorite_button);
         }
     }

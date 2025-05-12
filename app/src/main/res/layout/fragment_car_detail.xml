@@ -9,23 +9,39 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center">
-        <ImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="24dp"
-            android:layout_gravity="start"
-            android:src="@drawable/ic_back"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="btn_back"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp">
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_back"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="btn_back"/>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <ImageButton
+                android:id="@+id/favorite_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+                android:src="@drawable/ic_favorite_unsel"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="btn_favotire"/>
+        </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="20dp"
             app:strokeWidth="0dp"
-            app:cardBackgroundColor="@color/UnswitchColor"
-            android:layout_marginTop="8dp">
+            app:cardBackgroundColor="@color/UnswitchColor">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,8 +84,6 @@
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
-
-
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -118,7 +132,6 @@
                     android:layout_marginStart="8dp"
                     android:textColor="@color/colorTextGray"
                     android:textSize="18sp"/>
-
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
