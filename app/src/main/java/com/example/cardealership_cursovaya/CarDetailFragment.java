@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,7 +47,7 @@ public class CarDetailFragment extends Fragment {
         TextView bodyType = view.findViewById(R.id.car_body_type_detail);
         TextView year = view.findViewById(R.id.car_year_detail);
         TextView mileage = view.findViewById(R.id.car_mileage_detail);
-        Button btnBack = view.findViewById(R.id.btn_back);
+        ImageButton btnBack = view.findViewById(R.id.btn_back);
 
         // Заполняем данные
         if (car != null) {
@@ -57,8 +58,8 @@ public class CarDetailFragment extends Fragment {
                         .into(carImage);
             }
 
-            brandModel.setText(String.format("%s %s", car.getBrand(), car.getModel()));
-            price.setText(String.format("%,d ₽", (int)car.getPrice()));
+            brandModel.setText(String.format("%s %s, %s", car.getBrand(), car.getModel(), car.getYear()));
+            price.setText(String.format("%,d ₽", (int)car.getPrice()).replace(",", " "));
             bodyType.setText(String.format("Тип кузова: %s", car.getBodyType()));
             year.setText(String.format("Год выпуска: %s г.", car.getYear()));
             mileage.setText(String.format("Пробег: %,d км", (int)car.getMileage()));

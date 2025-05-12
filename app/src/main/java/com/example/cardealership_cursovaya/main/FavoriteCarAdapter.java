@@ -18,6 +18,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.logging.Handler;
 
 public class FavoriteCarAdapter extends RecyclerView.Adapter<FavoriteCarAdapter.CarViewHolder> {
     private List<Car> cars;
@@ -42,7 +43,18 @@ public class FavoriteCarAdapter extends RecyclerView.Adapter<FavoriteCarAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull CarViewHolder holder, int position) {
+        // Устанавливаем заполненную иконку для избранного
+        holder.favoriteButton.setImageResource(R.drawable.ic_favorite_sel);
+
         Car car = cars.get(position);
+
+        // Обработчик клика по всему элементу
+        holder.itemView.setOnClickListener(v -> {
+
+            if (listener != null) {
+                listener.onCarClick(car);
+            }
+        });
 
         holder.carBrand.setText(car.getBrand());
         holder.carModel.setText(car.getModel());
@@ -51,8 +63,6 @@ public class FavoriteCarAdapter extends RecyclerView.Adapter<FavoriteCarAdapter.
         holder.carYear.setText(car.getYear() + "г.,");
         holder.carMileage.setText(String.format("%,d км", (int)car.getMileage()));
 
-        // Устанавливаем заполненную иконку для избранного
-        holder.favoriteButton.setImageResource(R.drawable.ic_favorite_sel);
 
         // Обработчик клика по кнопке избранного
         holder.favoriteButton.setOnClickListener(v -> {
@@ -74,13 +84,6 @@ public class FavoriteCarAdapter extends RecyclerView.Adapter<FavoriteCarAdapter.
                         }
                     });
         }
-
-        // Обработчик клика по всему элементу
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onCarClick(car);
-            }
-        });
     }
 
     private void removeFromFavorites(String carId, int position) {
