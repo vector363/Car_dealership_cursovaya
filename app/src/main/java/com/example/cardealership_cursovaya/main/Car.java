@@ -17,6 +17,15 @@ public class Car implements Parcelable {
     private String bodyType;
     private boolean isFavorite = false;
 
+    private String engineVolume;
+    private double enginePower;
+    private String color;
+    private String transmissionType;
+    private String steeringWheelPosition;
+    private double ownersCount;
+    private String ptsType;
+    private String description;
+
     public Car() {} // Обязательный пустой конструктор для Firestore
 
     public Car(String brand, String model, double price, String imageUrl, String bodyType, String year, double mileage) {
@@ -29,8 +38,39 @@ public class Car implements Parcelable {
         this.mileage = mileage;
     }
 
-
     // Геттеры и сеттеры
+
+    public void setColor(String color) {this.color = color;}
+    public void setDescription(String description) {this.description = description;}
+
+    public void setEnginePower(double enginePower) {this.enginePower = enginePower;}
+
+    public void setEngineVolume(String engineVolume) {this.engineVolume = engineVolume;}
+
+    public void setOwnersCount(double ownersCount) {this.ownersCount = ownersCount;}
+
+    public void setPtsType(String ptsType) {this.ptsType = ptsType;}
+
+    public void setSteeringWheelPosition(String steeringWheelPosition) {this.steeringWheelPosition = steeringWheelPosition;}
+
+    public void setTransmissionType(String transmissionType) {this.transmissionType = transmissionType;}
+
+    public double getEnginePower() { return enginePower; }
+
+    public double getOwnersCount() { return ownersCount; }
+
+    public String getColor() { return color; }
+
+    public String getDescription() {return description;}
+
+    public String getEngineVolume() {return engineVolume;}
+
+    public String getPtsType() {return ptsType;}
+
+    public String getSteeringWheelPosition() {return steeringWheelPosition;}
+
+    public String getTransmissionType() {return transmissionType;}
+
     public String getYear() {return year;}
 
     public void setYear(String year) {this.year = year;}
@@ -70,6 +110,15 @@ public class Car implements Parcelable {
         imageUrl = in.readString();
         bodyType = in.readString();
         isFavorite = in.readByte() != 0;
+
+        engineVolume = in.readString();
+        enginePower = in.readDouble();
+        color = in.readString();
+        transmissionType = in.readString();
+        steeringWheelPosition = in.readString();
+        ownersCount = in.readDouble();
+        ptsType = in.readString();
+        description = in.readString();
     }
 
     public static final Creator<Car> CREATOR = new Creator<Car>() {
@@ -100,5 +149,15 @@ public class Car implements Parcelable {
         dest.writeString(imageUrl);
         dest.writeString(bodyType);
         dest.writeByte((byte) (isFavorite ? 1 : 0));
+
+        dest.writeString(engineVolume);
+        dest.writeDouble(enginePower);
+        dest.writeString(color);
+        dest.writeString(transmissionType);
+        dest.writeString(steeringWheelPosition);
+        dest.writeDouble(ownersCount);
+        dest.writeString(ptsType);
+        dest.writeString(description);
     }
+
 }

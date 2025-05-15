@@ -1,4 +1,3 @@
-
 <resources>
     <string-array name="body_types">
         <item>Седан</item>
@@ -6,6 +5,24 @@
         <item>Универсал</item>
         <item>Внедорожник</item>
         <item>Купе</item>
+    </string-array>
+
+    <string-array name="transmission_types">
+        <item>МКПП</item>
+        <item>АКПП</item>
+        <item>РКПП</item>
+        <item>CVT</item>
+    </string-array>
+
+    <string-array name="steering_wheel_positions">
+        <item>Левый</item>
+        <item>Правый</item>
+    </string-array>
+
+    <string-array name="pts_types">
+        <item>Оригинал</item>
+        <item>Дубликат</item>
+        <item>Электронный</item>
     </string-array>
 </resources>
 

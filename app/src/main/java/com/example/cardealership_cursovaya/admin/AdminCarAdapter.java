@@ -1,6 +1,5 @@
 package com.example.cardealership_cursovaya.admin;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cardealership_cursovaya.R;
 import com.example.cardealership_cursovaya.main.Car;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class AdminCarAdapter extends RecyclerView.Adapter<AdminCarAdapter.CarViewHolder> {
-    private List<Car> cars;
-    private OnCarActionListener listener;
+    private final List<Car> cars;
+    private final OnCarActionListener listener;
 
     public interface OnCarActionListener {
         void onEditClick(Car car);
@@ -42,56 +40,26 @@ public class AdminCarAdapter extends RecyclerView.Adapter<AdminCarAdapter.CarVie
 
     @Override
     public void onBindViewHolder(@NonNull CarViewHolder holder, int position) {
-        try {
-            Car car = cars.get(position);
-            holder.carBrand.setText(car.getBrand());
-            holder.carModel.setText(car.getModel());
-            holder.carBodyType.setText(car.getBodyType());
-            holder.carPrice.setText(String.format("%,d ₽", (int)car.getPrice()));
+        Car car = cars.get(position);
 
-            holder.carYear.setText(car.getYear());
-            holder.carMileage.setText(String.format("%,d км", (int)car.getMileage()));
+        holder.carBrand.setText(car.getBrand());
+        holder.carModel.setText(car.getModel());
+        holder.carYear.setText(car.getYear() + "г.");
+        holder.carMileage.setText(String.format("%,d км", (int)car.getMileage()));
+        holder.carPrice.setText(String.format("%,d ₽", (int)car.getPrice()).replace(",", " "));
+        holder.carBodyType.setText(car.getBodyType());
 
-
-
-            //Загрузка картинки авто
-            if (car.getImageUrl() != null && !car.getImageUrl().isEmpty()) {
-                Picasso.get()
-                        .load(car.getImageUrl())
-                        .placeholder(R.drawable.ic_launcher_background)
-                        .error(R.drawable.ic_launcher_background)
-                        .into(holder.carImage, new Callback() {
-                            @Override
-                            public void onSuccess() {}
-
-                            @Override
-                            public void onError(Exception e) {
-                                Log.e("Picasso", "Error loading image: " + e.getMessage());
-                            }
-                        });
-            }
-
-            holder.btnEdit.setOnClickListener(v -> {
-                try {
-                    listener.onEditClick(car);
-                } catch (Exception e) {
-                    Log.e("AdminAdapter", "Edit error", e);
-                }
-            });
-
-            holder.btnDelete.setOnClickListener(v -> {
-                try {
-                    listener.onDeleteClick(car);
-                } catch (Exception e) {
-                    Log.e("AdminAdapter", "Delete error", e);
-                }
-            });
-
-        } catch (Exception e) {
-            Log.e("AdminAdapter", "Binding error", e);
+        if (car.getImageUrl() != null && !car.getImageUrl().isEmpty()) {
+            Picasso.get()
+                    .load(car.getImageUrl())
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_background)
+                    .into(holder.carImage);
         }
-    }
 
+        holder.btnEdit.setOnClickListener(v -> listener.onEditClick(car));
+        holder.btnDelete.setOnClickListener(v -> listener.onDeleteClick(car));
+    }
 
     @Override
     public int getItemCount() {
@@ -100,7 +68,7 @@ public class AdminCarAdapter extends RecyclerView.Adapter<AdminCarAdapter.CarVie
 
     static class CarViewHolder extends RecyclerView.ViewHolder {
         ImageView carImage;
-        TextView carBrand, carModel, carPrice, carBodyType, carMileage, carYear;
+        TextView carBrand, carModel, carPrice, carMileage, carYear, carBodyType;
         Button btnEdit, btnDelete;
 
         public CarViewHolder(@NonNull View itemView) {
@@ -109,11 +77,9 @@ public class AdminCarAdapter extends RecyclerView.Adapter<AdminCarAdapter.CarVie
             carBrand = itemView.findViewById(R.id.car_brand);
             carModel = itemView.findViewById(R.id.car_model);
             carPrice = itemView.findViewById(R.id.car_price);
+            carMileage = itemView.findViewById(R.id.car_mileage);
+            carYear = itemView.findViewById(R.id.car_year);
             carBodyType = itemView.findViewById(R.id.car_bodyType);
-
-            carMileage=itemView.findViewById(R.id.car_mileage);
-            carYear=itemView.findViewById(R.id.car_year);
-
             btnEdit = itemView.findViewById(R.id.btn_edit);
             btnDelete = itemView.findViewById(R.id.btn_delete);
         }

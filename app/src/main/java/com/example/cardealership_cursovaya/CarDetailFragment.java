@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +23,6 @@ import java.util.Map;
 
 public class CarDetailFragment extends Fragment {
     private static final String ARG_CAR = "car";
-
     private Car car;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
