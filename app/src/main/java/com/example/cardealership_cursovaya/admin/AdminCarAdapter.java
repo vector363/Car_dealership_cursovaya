@@ -52,8 +52,8 @@ public class AdminCarAdapter extends RecyclerView.Adapter<AdminCarAdapter.CarVie
         if (car.getImageUrl() != null && !car.getImageUrl().isEmpty()) {
             Picasso.get()
                     .load(car.getImageUrl())
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.bg_auth_switch)
+                    .error(R.drawable.bg_auth_switch)
                     .into(holder.carImage);
         }
 

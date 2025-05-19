@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
     android:gravity="center_horizontal"
-    android:background="@color/BackgroundColor">
+    android:background="@drawable/background_start"
+    android:layout_marginTop="-50dp">
 
-    <ImageView
-        android:layout_width="350dp"
-        android:layout_height="350dp"
-        android:layout_marginBottom="32dp"
-        />
-<!--        android:src=""-->
-
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="440dp"/>
 
     <LinearLayout
         android:id="@+id/auth_switch_container"
@@ -56,5 +52,4 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
-
 </LinearLayout>

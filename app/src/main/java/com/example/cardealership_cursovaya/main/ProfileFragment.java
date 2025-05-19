@@ -33,27 +33,17 @@ public class ProfileFragment extends Fragment {
         ShowLogin = view.findViewById(R.id.login_user);
         btnLogout = view.findViewById(R.id.btn_logout);
 
-        showUserData();
-        setupLogoutButton();
-
-        return view;
-    }
-
-    private void showUserData() {
         FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            ShowLogin.setText(user.getEmail());
-        }
-    }
+        ShowLogin.setText(user.getEmail());
 
-    private void setupLogoutButton() {
         btnLogout.setOnClickListener(v -> {
             mAuth.signOut();
             sessionManager.logout();
             redirectToLogin();
         });
-    }
 
+        return view;
+    }
     private void redirectToLogin() {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -61,39 +51,3 @@ public class ProfileFragment extends Fragment {
         requireActivity().finish();
     }
 }
-
-
-
-
-
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//
-//        mAuth = FirebaseAuth.getInstance();
-//        TextView tvWelcome = findViewById(R.id.tv_welcome);
-//        Button btnLogout = findViewById(R.id.btn_logout);
-//
-//        FirebaseUser user = mAuth.getCurrentUser();
-//        if (user != null) {
-//            tvWelcome.setText("Добро пожаловать, " + user.getEmail());
-//        }
-//
-//        btnLogout.setOnClickListener(v -> {
-//            mAuth.signOut();
-//            startActivity(new Intent(this, LoginActivity.class));
-//            finish();
-//        });
-//    }
-
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        if (mAuth.getCurrentUser() == null) {
-//            startActivity(new Intent(this, LoginActivity.class));
-//            finish();
-//        }
-//    }

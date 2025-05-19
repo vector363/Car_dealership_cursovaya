@@ -1,4 +1,4 @@
-package com.example.cardealership_cursovaya.main;
+package com.example.cardealership_cursovaya.catalog.favorite;
 
 import android.os.Bundle;
 
@@ -12,8 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.example.cardealership_cursovaya.CarDetailFragment;
+import com.example.cardealership_cursovaya.catalog.CarDetailFragment;
 import com.example.cardealership_cursovaya.R;
+import com.example.cardealership_cursovaya.main.Car;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldPath;

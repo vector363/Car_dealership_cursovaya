@@ -1,4 +1,4 @@
-package com.example.cardealership_cursovaya.main;
+package com.example.cardealership_cursovaya.catalog.favorite;
 
 import static java.util.Objects.requireNonNull;
 
@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cardealership_cursovaya.R;
+import com.example.cardealership_cursovaya.main.Car;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -83,8 +84,8 @@ public class FavoriteCarAdapter extends RecyclerView.Adapter<FavoriteCarAdapter.
         if (car.getImageUrl() != null && !car.getImageUrl().isEmpty()) {
             Picasso.get()
                     .load(car.getImageUrl())
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.bg_auth_switch)
+                    .error(R.drawable.bg_auth_switch)
                     .into(holder.carImage);
         }
     }

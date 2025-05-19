@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <color name="colorSwitch">#fed32c</color>
     <color name="BackgroundColor">#20242a</color>
     <color name="UnswitchColor">#2b3038</color>
 
-
     <color name="colorTextGray">#b8b5bd</color>
     <color name="colorTextWhite">#FFFFFF</color>
     <color name="colorTextDark">#000000</color>
-
 </resources>
 

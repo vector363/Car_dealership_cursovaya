@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"/>
+            android:src="@color/colorTextGray"/>
 
         <TextView
             android:id="@+id/car_brand"
@@ -75,7 +75,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="16dp">
-
             <Button
                 android:id="@+id/btn_edit"
                 android:layout_width="0dp"

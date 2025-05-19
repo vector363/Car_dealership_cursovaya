@@ -1,4 +1,4 @@
-package com.example.cardealership_cursovaya;
+package com.example.cardealership_cursovaya.catalog;
 
 import android.content.Context;
 import android.view.View;

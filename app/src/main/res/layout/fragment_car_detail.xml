@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +59,7 @@
                         android:layout_height="250dp"
                         android:scaleType="centerCrop"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/ic_launcher_background"/>
+                        android:src="@color/colorTextGray"/>
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -132,6 +133,96 @@
                     android:layout_marginStart="8dp"
                     android:textColor="@color/colorTextGray"
                     android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/car_enginevolume_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/car_engine_power_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/car_color_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/car_transimissionType_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/car_steering_wheel_pos_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/car_owners_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/car_pts_type_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="8dp"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="@color/UnswitchColor"
+            android:layout_marginTop="15dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/title_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorTextWhite"
+                    android:text="Описание"
+                    android:textSize="27dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"/>
+                <TextView
+                    android:id="@+id/car_description_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="8dp"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>

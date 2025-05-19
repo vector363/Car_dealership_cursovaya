@@ -36,18 +36,10 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
-        initFirebase();
-        initViews(view);
-        setupRegisterButton();
-        return view;
-    }
 
-    private void initFirebase() {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-    }
 
-    private void initViews(View view) {
         inputEmail = view.findViewById(R.id.register_email);
         inputPassword = view.findViewById(R.id.register_password);
         inputRePassword = view.findViewById(R.id.register_password_replay);
@@ -57,9 +49,7 @@ public class RegisterFragment extends Fragment {
         progressDialog.setTitle("Регистрация");
         progressDialog.setMessage("Создаем ваш аккаунт...");
         progressDialog.setCancelable(false);
-    }
 
-    private void setupRegisterButton() {
         btnRegister.setOnClickListener(v -> {
             String email = inputEmail.getText().toString().trim();
             String password = inputPassword.getText().toString().trim();
@@ -69,6 +59,8 @@ public class RegisterFragment extends Fragment {
                 registerUser(email, password);
             }
         });
+
+        return view;
     }
 
     private boolean validateInputs(String email, String password, String rePassword) {
@@ -126,7 +118,13 @@ public class RegisterFragment extends Fragment {
                         progressDialog.dismiss();
 
                         if (task.isSuccessful()) {
-                            showSuccessAndSwitchToLogin();
+                            Toast.makeText(getContext(), "Регистрация успешно завершена!", Toast.LENGTH_SHORT).show();
+
+                            // Возвращаемся к экрану входа
+                            if (getActivity() instanceof LoginActivity) {
+                                ((LoginActivity) getActivity()).showLoginFragment();
+                            }
+
                         } else {
                             Toast.makeText(getContext(),
                                     "Ошибка сохранения данных", Toast.LENGTH_SHORT).show();
@@ -134,16 +132,6 @@ public class RegisterFragment extends Fragment {
                     });
         }
     }
-
-    private void showSuccessAndSwitchToLogin() {
-        Toast.makeText(getContext(), "Регистрация успешно завершена!", Toast.LENGTH_SHORT).show();
-
-        // Возвращаемся к экрану входа
-        if (getActivity() instanceof LoginActivity) {
-            ((LoginActivity) getActivity()).showLoginFragment();
-        }
-    }
-
     private void handleRegistrationError(Exception exception) {
         progressDialog.dismiss();
         String errorMessage = "Ошибка регистрации";

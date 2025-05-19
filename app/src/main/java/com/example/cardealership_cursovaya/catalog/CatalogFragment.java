@@ -1,4 +1,4 @@
-package com.example.cardealership_cursovaya.main;
+package com.example.cardealership_cursovaya.catalog;
 
 import android.os.Bundle;
 
@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.cardealership_cursovaya.CarDetailFragment;
 import com.example.cardealership_cursovaya.R;
+import com.example.cardealership_cursovaya.main.Car;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;

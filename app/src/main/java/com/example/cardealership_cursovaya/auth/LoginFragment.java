@@ -34,8 +34,18 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
         initViews(view);
-        setupLoginButton();
+
+        btnLogin.setOnClickListener(v -> {
+            String email = inputEmail.getText().toString().trim();
+            String password = inputPassword.getText().toString().trim();
+
+            if (validateInputs(email, password)) {
+                signInUser(email, password);
+            }
+        });
+
         return view;
     }
 
@@ -56,7 +66,6 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    // Добавляем метод валидации
     private boolean validateInputs(String email, String password) {
         boolean isValid = true;
 
@@ -67,7 +76,6 @@ public class LoginFragment extends Fragment {
             inputEmail.setError("Введите корректный email");
             isValid = false;
         }
-
         if (password.isEmpty()) {
             inputPassword.setError("Введите пароль");
             isValid = false;
@@ -75,19 +83,7 @@ public class LoginFragment extends Fragment {
             inputPassword.setError("Пароль должен содержать минимум 6 символов");
             isValid = false;
         }
-
         return isValid;
-    }
-
-    private void setupLoginButton() {
-        btnLogin.setOnClickListener(v -> {
-            String email = inputEmail.getText().toString().trim();
-            String password = inputPassword.getText().toString().trim();
-
-            if (validateInputs(email, password)) {
-                signInUser(email, password);
-            }
-        });
     }
 
     private void signInUser(String email, String password) {

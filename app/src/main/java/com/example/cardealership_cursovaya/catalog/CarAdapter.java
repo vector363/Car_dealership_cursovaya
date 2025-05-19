@@ -1,4 +1,4 @@
-package com.example.cardealership_cursovaya.main;
+package com.example.cardealership_cursovaya.catalog;
 
 
 import android.util.Log;
@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cardealership_cursovaya.R;
+import com.example.cardealership_cursovaya.main.Car;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,8 +63,8 @@ public class CarAdapter extends FirestoreRecyclerAdapter<Car, CarAdapter.CarView
         if (car.getImageUrl() != null && !car.getImageUrl().isEmpty()) {
             Picasso.get()
                     .load(car.getImageUrl())
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.bg_auth_switch)
+                    .error(R.drawable.bg_auth_switch)
                     .into(holder.carImage, new Callback() {
                         @Override
                         public void onSuccess() {}
@@ -161,6 +162,7 @@ public class CarAdapter extends FirestoreRecyclerAdapter<Car, CarAdapter.CarView
                     }
                 });
     }
+
 
     private void addToFavorites(String userId, String carId) {
         Map<String, Object> favorite = new HashMap<>();

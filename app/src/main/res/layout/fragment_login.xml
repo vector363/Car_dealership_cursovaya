@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@color/BackgroundColor">
-
+    android:background="@color/colorTextDark">
 
     <EditText
         android:id="@+id/register_email"
@@ -38,7 +37,6 @@
         android:textSize="22sp"
         android:backgroundTint="@color/colorSwitch"
         android:textColor="@color/colorTextDark"
-        android:fontFamily="sans-serif-light"
-        />
+        android:fontFamily="sans-serif-light" />
 
 </LinearLayout>

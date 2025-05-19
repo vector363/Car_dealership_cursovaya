@@ -35,15 +35,15 @@ android {
 
 
 dependencies {
-    //FirebaseAdapter
-    implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
-    implementation("com.squareup.picasso:picasso:2.8")
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0")) // Обновленная версия
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.squareup.picasso:picasso:2.8")
+
+    // FirebaseUI
+    implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
 
     // Остальные зависимости
     implementation(libs.appcompat)

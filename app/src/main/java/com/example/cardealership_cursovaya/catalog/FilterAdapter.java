@@ -1,4 +1,4 @@
-package com.example.cardealership_cursovaya.main;
+package com.example.cardealership_cursovaya.catalog;
 
 import android.view.LayoutInflater;
 import android.view.View;

@@ -13,8 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -40,8 +38,7 @@ public class AdminFragment extends Fragment {
     private ProgressBar progressBar;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_admin, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view_admin);
@@ -179,17 +176,6 @@ public class AdminFragment extends Fragment {
                 .setNegativeButton("Отмена", null);
 
         AlertDialog dialog = builder.create();
-
-        // Настройка для корректного отображения клавиатуры
-        dialog.setOnShowListener(dialogInterface -> {
-            Window window = dialog.getWindow();
-            if (window != null) {
-                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                etBrand.requestFocus();
-                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            }
-        });
-
         dialog.show();
     }
 

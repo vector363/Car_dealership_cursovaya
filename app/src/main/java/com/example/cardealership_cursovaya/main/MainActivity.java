@@ -5,16 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cardealership_cursovaya.R;
-import com.example.cardealership_cursovaya.auth.AuthManager;
 import com.example.cardealership_cursovaya.auth.LoginActivity;
 import com.example.cardealership_cursovaya.auth.SessionManager;
+import com.example.cardealership_cursovaya.catalog.CatalogFragment;
+import com.example.cardealership_cursovaya.catalog.favorite.FavoriteFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         mAuth = FirebaseAuth.getInstance();
 
-        // Проверка аутентификации
+        // проверка аутентификации
         if (!sessionManager.isLoggedIn() || mAuth.getCurrentUser() == null) {
             redirectToLogin();
             return;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setupNavigation();
     }
 
-    private void redirectToLogin() {
+    private void redirectToLogin() { //Запуск активности для авторизации
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

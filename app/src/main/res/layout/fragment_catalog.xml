@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -23,10 +23,9 @@
             android:clipToPadding="false"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            tools:listitem="@layout/item_car" />
+            tools:listitem="@layout/item_car"/>
     </LinearLayout>
 
-    <!--Индикатор загрузки-->
     <ProgressBar
         android:id="@+id/loading_indicator"
         android:layout_width="wrap_content"
