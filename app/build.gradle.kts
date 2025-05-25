@@ -45,6 +45,10 @@ dependencies {
     // FirebaseUI
     implementation("com.firebaseui:firebase-ui-firestore:8.0.2")
 
+
+    implementation ("com.squareup.okhttp3:okhttp:4.9.1") // Для сетевых запросов
+    implementation ("com.fasterxml.jackson.core:jackson-databind:2.13.0") // Для парсинга JSON
+
     // Остальные зависимости
     implementation(libs.appcompat)
     implementation(libs.material)

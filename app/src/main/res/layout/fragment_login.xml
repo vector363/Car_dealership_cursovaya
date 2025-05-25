@@ -6,27 +6,36 @@
     android:gravity="center_horizontal"
     android:background="@color/colorTextDark">
 
-    <EditText
-        android:id="@+id/register_email"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:hint="Логин"
-        android:inputType="textEmailAddress"
-        android:layout_marginBottom="8dp"
-        android:textSize="20sp"
-        android:textColor="@color/colorTextWhite"
-        android:textColorHint="@color/colorTextGray"/>
 
-    <EditText
-        android:id="@+id/register_password"
-        android:layout_width="240dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:hint="Пароль"
-        android:inputType="textPassword"
-        android:layout_marginBottom="16dp"
-        android:textSize="20sp"
-        android:textColor="@color/colorTextWhite"
-        android:textColorHint="@color/colorTextGray"/>
+        android:layout_marginTop="12dp"
+        android:textColorHint="@color/colorTextGray"
+        android:hint="Логин">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/register_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColorHint="@color/colorTextGray"
+        android:hint="Пароль">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/register_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/register_button"
